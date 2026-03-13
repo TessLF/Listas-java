@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Calculadora</title>
+</head>
+<body>
+    <div class="container">
+        <h2>Calculadora de Descuentos</h2>
+        <form th:action="@{/calcular}" th:object="${calculo}" method="post">
+            <input type="number" th:field="*{precio}" placeholder="Precio original" required>
+            <input type="number" th:field="*{descuento}" placeholder="% Descuento" required>
+            <button type="submit">Calcular Precio Final</button>
+        </form>
+    </div>
+</body>
+</html>

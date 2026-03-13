@@ -1,0 +1,284 @@
+/* ============================================
+   CALCULADORA DE DESCUENTOS - Spring Boot App
+   Tema: Negro + Morado Oscuro + Botones Azules
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+
+/* ── Variables ── */
+:root {
+  --bg-primary:     #0a0a0f;
+  --bg-secondary:   #12101a;
+  --bg-card:        #1a1625;
+  --bg-card-hover:  #221e30;
+  --purple-dark:    #3b1f6b;
+  --purple-mid:     #5a2d9c;
+  --purple-glow:    #7c3fc4;
+  --purple-accent:  #9b59d0;
+  --blue-btn:       #1a6fc4;
+  --blue-btn-hover: #2484e8;
+  --blue-glow:      #3b9bff;
+  --text-primary:   #f0eaf8;
+  --text-secondary: #a89cc4;
+  --text-muted:     #6b5f88;
+  --border:         #2e2547;
+  --border-glow:    #5a2d9c55;
+  --success:        #2ecc71;
+  --radius:         12px;
+  --radius-lg:      18px;
+}
+
+/* ── Reset & Base ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+
+  /* Fondo con textura sutil */
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% -10%, #3b1f6b33 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 90% 90%, #1a1040 0%, transparent 60%);
+}
+
+/* ── Contenedor principal ── */
+.container {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 2.8rem;
+  width: 100%;
+  max-width: 480px;
+  box-shadow:
+    0 0 0 1px var(--border-glow),
+    0 20px 60px rgba(0, 0, 0, 0.6),
+    0 0 80px rgba(90, 45, 156, 0.12);
+  animation: fadeUp 0.5s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Tipografía ── */
+h1, h2 {
+  font-family: 'Syne', sans-serif;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+
+  /* Gradiente en el título */
+  background: linear-gradient(135deg, #f0eaf8 30%, var(--purple-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+h2::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--purple-glow), transparent);
+  border-radius: 2px;
+}
+
+p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  font-size: 0.97rem;
+  margin-bottom: 0.75rem;
+}
+
+/* ── Formulario ── */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+input[type="number"],
+input[type="text"],
+input[type="email"],
+input {
+  width: 100%;
+  padding: 0.85rem 1.1rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-primary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+  outline: none;
+    appearance: textfield;      /* propiedad estándar */
+  -moz-appearance: textfield; /* firefox */
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+input::placeholder {
+  color: var(--text-muted);
+}
+
+input:focus {
+  border-color: var(--purple-glow);
+  background: var(--bg-card-hover);
+  box-shadow: 0 0 0 3px rgba(124, 63, 196, 0.18);
+}
+
+input:hover:not(:focus) {
+  border-color: var(--purple-mid);
+}
+
+/* ── Botones ── */
+button,
+input[type="submit"],
+a.btn {
+  display: inline-block;
+  padding: 0.9rem 1.8rem;
+  background: linear-gradient(135deg, var(--blue-btn), #1258a0);
+  color: #fff;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  transition: background 0.25s, box-shadow 0.25s, transform 0.15s;
+  box-shadow:
+    0 4px 15px rgba(26, 111, 196, 0.35),
+    inset 0 1px 0 rgba(255,255,255,0.1);
+  width: 100%;
+}
+
+button:hover,
+input[type="submit"]:hover,
+a.btn:hover {
+  background: linear-gradient(135deg, var(--blue-btn-hover), var(--blue-btn));
+  box-shadow:
+    0 6px 25px rgba(59, 155, 255, 0.45),
+    inset 0 1px 0 rgba(255,255,255,0.15);
+  transform: translateY(-1px);
+}
+
+button:active,
+input[type="submit"]:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(26, 111, 196, 0.3);
+}
+
+/* ── Resultado / precio ── */
+.precio-resultado {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 1.2rem 0;
+}
+
+.precio-resultado h2 {
+  color: var(--success) !important;
+  font-size: 2.2rem;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.precio-resultado h2::after {
+  display: none;
+}
+
+/* Sobrescribir el inline style de resultado.html */
+h2[style*="color"] {
+  color: var(--success) !important;
+  font-size: 2rem;
+}
+
+/* ── Enlace "Volver" ── */
+a {
+  color: var(--purple-accent);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--blue-glow);
+  text-decoration: underline;
+}
+
+/* Botón de volver (si se desea usar como bloque) */
+a[href="/"] {
+  display: inline-block;
+  margin-top: 1.5rem;
+  padding: 0.7rem 1.5rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-secondary);
+  font-family: 'Syne', sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+  text-decoration: none;
+  width: 100%;
+  text-align: center;
+}
+
+a[href="/"]:hover {
+  border-color: var(--purple-glow);
+  color: var(--text-primary);
+  background: rgba(90, 45, 156, 0.1);
+  text-decoration: none;
+}
+
+/* ── Responsive ── */
+@media (max-width: 520px) {
+  .container {
+    padding: 2rem 1.5rem;
+  }
+
+  h1 { font-size: 1.6rem; }
+  h2 { font-size: 1.3rem; }
+}

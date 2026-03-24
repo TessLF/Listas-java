@@ -1,0 +1,113 @@
+/* Importamos una fuente más moderna de Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    /* Fondo con gradiente animado que cambia suavemente */
+    background: linear-gradient(-45deg, #ffffff, #302b63, #ffffff, #6a11cb);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Animación del fondo */
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Contenedor con efecto de cristal (Glassmorphism) */
+.calculadora-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px); /* Desenfoque de fondo */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.calculadora-card h1 {
+    color: #fff;
+    font-size: 26px;
+    margin-bottom: 30px;
+    background: linear-gradient(to right, #fff, #a18cd1);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Inputs con estilo neón sutil */
+.input-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.input-group input {
+    width: 100%;
+    background: rgba(249, 249, 249, 0.2);
+    border: 2px solid rgba(254, 254, 254, 0.1);
+    border-radius: 12px;
+    padding: 15px;
+    color: #ffffff;
+    font-size: 16px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: #00d2ff;
+    box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
+    background: rgba(0, 0, 0, 0.4);
+}
+
+/* Botón con gradiente brillante y efecto hover */
+.btn-gradiente {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(45deg, #00d2ff, #3a7bd5, #6a11cb);
+    background-size: 200% auto;
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.5s;
+    box-shadow: 0 10px 20px rgba(255, 255, 255, 0.2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-gradiente:hover {
+    background-position: right center;
+    transform: translateY(-2px);
+    box-shadow: 0 15px 25px rgba(58, 123, 213, 0.4);
+}
+
+.btn-gradiente:active {
+    transform: translateY(0);
+}
+
+/* Pequeño detalle decorativo: un círculo de luz de fondo */
+.blob {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: #6a11cb;
+    filter: blur(80px);
+    z-index: -1;
+    border-radius: 50%;
+}

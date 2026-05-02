@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>ViajaFácil Pro - Explorador Nacional 32</title>
+    <style>
+        :root { --primary: #006d4e; --secondary: #004d37; --bg: #f8faf9; --card-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg); margin: 0; padding: 20px; color: #333; }
+        .container { max-width: 1450px; margin: auto; }
+        .header-enterprise { background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); padding: 35px; border-radius: 20px; color: white; display: flex; align-items: center; gap: 25px; margin-bottom: 30px; box-shadow: var(--card-shadow); }
+        .badge-mx { background: white; color: var(--primary); padding: 12px 20px; border-radius: 12px; font-weight: 900; font-size: 1.4em; }
+        .header-enterprise h1 { margin: 0; font-size: 2.5em; letter-spacing: -1px; }
+        .search-panel { background: white; padding: 30px; border-radius: 15px; box-shadow: var(--card-shadow); margin-bottom: 30px; }
+        .grid-itinerario { display: flex; gap: 20px; overflow-x: auto; padding: 15px 0; scrollbar-width: thin; }
+        .day-column { background: white; border-radius: 15px; padding: 25px; min-width: 420px; flex: 1; border: 1px solid #e0e0e0; box-shadow: var(--card-shadow); }
+        .day-title { color: var(--primary); margin-top: 0; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; display: flex; justify-content: space-between; }
+        .lugar-card { display: flex; gap: 18px; border-bottom: 1px solid #eee; padding: 20px 0; align-items: flex-start; transition: transform 0.2s; }
+        .lugar-card:hover { transform: translateY(-2px); }
+        .lugar-card:last-child { border-bottom: none; }
+        .lugar-img { width: 130px; height: 130px; object-fit: cover; border-radius: 12px; background: #f0f0f0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .lugar-info { flex: 1; }
+        .lugar-info strong { font-size: 1.25em; color: #1a1a1a; display: block; margin-bottom: 6px; }
+        .lugar-info p { margin: 0 0 12px 0; font-size: 0.95em; color: #555; line-height: 1.5; }
+        .tag { background: #e6f1ed; padding: 4px 10px; border-radius: 5px; font-size: 0.85em; color: var(--primary); font-weight: 700; margin-right: 10px; }
+        button { background: var(--primary); color: white; border: none; padding: 15px 35px; border-radius: 10px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        button:hover { background: var(--secondary); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        select, input { padding: 12px; border: 1px solid #ddd; border-radius: 10px; margin-right: 15px; font-size: 1em; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header-enterprise">
+        <div class="badge-mx">MX</div>
+        <h1>ViajaFácil: Explorador Nacional 32</h1>
+    </div>
+    <div class="search-panel">
+        <label><b>Estado:</b></label>
+        <select id="selCiudad">
+            <option value="Aguascalientes">Aguascalientes</option>
+            <option value="Baja California">Baja California</option>
+            <option value="Baja California Sur">Baja California Sur</option>
+            <option value="Campeche">Campeche</option>
+            <option value="Chiapas">Chiapas</option>
+            <option value="Chihuahua">Chihuahua</option>
+            <option value="CDMX">Ciudad de México</option>
+            <option value="Coahuila">Coahuila</option>
+            <option value="Colima">Colima</option>
+            <option value="Durango">Durango</option>
+            <option value="Estado de Mexico">Estado de México</option>
+            <option value="Guanajuato">Guanajuato</option>
+            <option value="Guerrero">Guerrero</option>
+            <option value="Hidalgo">Hidalgo</option>
+            <option value="Jalisco">Jalisco</option>
+            <option value="Michoacán">Michoacán</option>
+            <option value="Morelos">Morelos</option>
+            <option value="Nayarit">Nayarit</option>
+            <option value="Nuevo León">Nuevo León</option>
+            <option value="Oaxaca">Oaxaca</option>
+            <option value="Puebla">Puebla</option>
+            <option value="Querétaro">Querétaro</option>
+            <option value="Quintana Roo">Quintana Roo</option>
+            <option value="San Luis Potosí">San Luis Potosí</option>
+            <option value="Sinaloa">Sinaloa</option>
+            <option value="Sonora">Sonora</option>
+            <option value="Tabasco">Tabasco</option>
+            <option value="Tamaulipas">Tamaulipas</option>
+            <option value="Tlaxcala">Tlaxcala</option>
+            <option value="Veracruz">Veracruz</option>
+            <option value="Yucatán">Yucatán</option>
+            <option value="Zacatecas">Zacatecas</option>
+        </select>
+        <label><b>Días:</b></label>
+        <input type="number" id="numDias" value="3" min="1" max="7">
+        <button onclick="generar()">Ver Itinerario Completo ✨</button>
+    </div>
+    <div id="itinerario" class="grid-itinerario"></div>
+</div>
+<script>
+    async function generar() {
+        const ciudad = document.getElementById('selCiudad').value;
+        const dias = document.getElementById('numDias').value;
+        try {
+            const res = await fetch(`/api/itinerario?ciudad=${ciudad}&dias=${dias}`);
+            const data = await res.json();
+            const cont = document.getElementById('itinerario');
+            cont.innerHTML = ''; 
+            Object.keys(data).forEach(dia => {
+                let cards = data[dia].map(l => `
+                    <div class="lugar-card">
+                        <img src="${l.imagenUrl}" class="lugar-img" onerror="this.src='https://via.placeholder.com/130?text=Aventura'">
+                        <div class="lugar-info">
+                            <strong>${l.nombre}</strong>
+                            <p>${l.descripcion}</p>
+                            <span class="tag">🕒 ${l.duracionHoras}h</span>
+                            <span class="tag">⭐ ${l.popularidad}/5</span>
+                        </div>
+                    </div>
+                `).join('');
+                cont.innerHTML += `<div class="day-column"><div class="day-title"><h3>📍 ${dia}</h3></div>${cards}</div>`;
+            });
+        } catch (e) { alert("Error de conexión con el servidor."); }
+    }
+</script>
+</body>
+</html>
